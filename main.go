@@ -25,6 +25,20 @@ func wholeStory(test string) (string, error) {
 	return "", errors.New("format is not valid for the given string")
 }
 
+// Estimated time 15 minute, time taken 5 minute
+func averageNumber(test string) (uint64, error) {
+	valid, numbers, _ := parseString(test)
+	if valid {
+		average := numbers[0]
+		for i := 1; i < len(numbers); i++ {
+			u := average*uint64(i) + numbers[i]
+			average = u / uint64(i+1)
+		}
+		return average, nil
+	}
+	return 0, errors.New("format is not valid for the given string")
+}
+
 func parseString(test string) (bool, []uint64, []string) {
 	var integers []uint64
 	var texts []string

@@ -98,7 +98,58 @@ func Test_wholeStory(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got, _ := wholeStory(tt.args); got != tt.want {
-				t.Errorf("testValidity() = %v, want %v", got, tt.want)
+				t.Errorf("wholeStory() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_averageNumber(t *testing.T) {
+	var tests = []struct {
+		name string
+		args string
+		want uint64
+	}{
+		{
+			name: "withValueFormat",
+			args: "12-hello-34-world",
+			want: 23,
+		},
+		{
+			name: "withInvalidbutStringFirst",
+			args: "dsafds-12-dfasdf-34",
+			want: 0,
+		},
+		{
+			name: "withBlank",
+			args: "   ",
+			want: 0,
+		},
+		{
+			name: "withNoDash",
+			args: "12dfad12sdfd123sdfdsf34dfasf",
+			want: 0,
+		},
+		{
+			name: "withNoDash",
+			args: "dfad_fdadf_",
+			want: 0,
+		},
+		{
+			name: "withBlankInBetween",
+			args: "12-dsfa-12- sdfsa-12",
+			want: 0,
+		},
+		{
+			name: "withNumericAsAss",
+			args: "12-hello-12-world-12-number-23-3456",
+			want: 14,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got, _ := averageNumber(tt.args); got != tt.want {
+				t.Errorf("averageNumber() = %v, want %v", got, tt.want)
 			}
 		})
 	}
