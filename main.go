@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"math/rand"
 	"strconv"
 	"strings"
 )
@@ -93,4 +94,43 @@ func parseString(test string) (bool, []uint64, []string) {
 		}
 	}
 	return startSequence && startIndex != 0, integers, texts
+}
+
+func generateRandomPattern(valid bool) string {
+	// make sure we have at-least one - in the generated string
+	lengthTotal := rand.Intn(10) + 1
+	var pattern strings.Builder
+	if valid {
+		for i := 0; i <= lengthTotal; i++ {
+			charSetNumeric := "1234567890"
+			// Make sure we have at-least one length for the valid numeric field
+			length := rand.Intn(5) + 1
+			if i != 0 {
+				pattern.WriteString("-")
+			}
+			for j := 0; j <= length; j++ {
+				random := rand.Intn(len(charSetNumeric))
+				randomChar := charSetNumeric[random]
+				pattern.WriteString(string(randomChar))
+			}
+			// Make sure we have at-least one length for the valid string field
+			length = rand.Intn(10) + 1
+			charSetString := "abcdedfghijklmnopqrstABCDEFGHIJKLMNOP123456789"
+			pattern.WriteString("-")
+			for k := 0; k <= length; k++ {
+				random := rand.Intn(len(charSetString))
+				randomChar := charSetString[random]
+				pattern.WriteString(string(randomChar))
+			}
+		}
+	} else {
+		lengthTotal := rand.Intn(20) + 1
+		charSet := "abcdedfghijklmnopqrst ABCDEFGHIJKLMNOP123456789"
+		for i := 0; i < lengthTotal; i++ {
+			random := rand.Intn(len(charSet))
+			randomChar := charSet[random]
+			pattern.WriteString(string(randomChar))
+		}
+	}
+	return pattern.String()
 }

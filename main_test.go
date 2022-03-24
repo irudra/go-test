@@ -203,3 +203,40 @@ func Test_storyStats(t *testing.T) {
 		})
 	}
 }
+
+func Test_generateRandomPattern(t *testing.T) {
+
+	tests := []struct {
+		name string
+		args bool
+		want bool
+	}{
+		{
+			name: "GenerateValid",
+			args: true,
+			want: true,
+		},
+		{
+			name: "GenerateInvalid",
+			args: false,
+			want: false,
+		},
+		{
+			name: "GenerateValid",
+			args: true,
+			want: true,
+		},
+		{
+			name: "GenerateInvalid",
+			args: false,
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := generateRandomPattern(tt.args); testValidity(got) != tt.want {
+				t.Errorf("generateRandomPattern() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
