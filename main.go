@@ -54,7 +54,7 @@ func storyStats(test string) (string, string, int, []string) {
 		}
 		var averageLengthString []string
 		for i := 0; i < len(texts); i++ {
-			if average == float64(len(texts[i])) {
+			if int(average) == len(texts[i]) {
 				averageLengthString = append(averageLengthString, texts[i])
 			}
 		}
