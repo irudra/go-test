@@ -1,6 +1,10 @@
 package main
 
-import "strconv"
+import (
+	"errors"
+	"strconv"
+	"strings"
+)
 
 func main() {
 	print("I am working on test")
@@ -8,6 +12,20 @@ func main() {
 
 //I had estimated the the function as 15 minute however I took one hour in the implementing this.
 func testValidity(test string) bool {
+	valid, _, _ := parseString(test)
+	return valid
+}
+
+// Estimated time 15 minute, time taken 5 minute
+func wholeStory(test string) (string, error) {
+	valid, _, texts := parseString(test)
+	if valid {
+		return strings.Join(texts, " "), nil
+	}
+	return "", errors.New("format is not valid for the given string")
+}
+
+func parseString(test string) (bool, []uint64, []string) {
 	var integers []uint64
 	var texts []string
 	separator := "-"
@@ -19,12 +37,12 @@ func testValidity(test string) bool {
 			texts = append(texts, test[startIndex:i+1])
 			startSequence = true
 		} else if charV == " " {
-			return false
+			return false, nil, nil
 		} else if charV == separator {
 			if startSequence {
 				num, err := strconv.ParseUint(test[startIndex:i], 10, 64)
 				if err != nil {
-					return false
+					return false, nil, nil
 				}
 				integers = append(integers, num)
 				startSequence = false
@@ -36,5 +54,5 @@ func testValidity(test string) bool {
 			}
 		}
 	}
-	return startSequence && startIndex != 0
+	return startSequence && startIndex != 0, integers, texts
 }
