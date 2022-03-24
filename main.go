@@ -29,11 +29,7 @@ func wholeStory(test string) (string, error) {
 func averageNumber(test string) (uint64, error) {
 	valid, numbers, _ := parseString(test)
 	if valid {
-		average := numbers[0]
-		for i := 1; i < len(numbers); i++ {
-			u := average*uint64(i) + numbers[i]
-			average = u / uint64(i+1)
-		}
+		average := calculateAverage(numbers)
 		return average, nil
 	}
 	return 0, errors.New("format is not valid for the given string")
