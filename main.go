@@ -35,6 +35,34 @@ func averageNumber(test string) (uint64, error) {
 	return 0, errors.New("format is not valid for the given string")
 }
 
+// estimated time half an hour complete 3/4 hour
+func storyStats(test string) (string, string, int, []string) {
+	valid, _, texts := parseString(test)
+	if valid {
+		average := float64(len(texts[0]))
+		shortString := texts[0]
+		longString := texts[0]
+		for i := 1; i < len(texts); i++ {
+			u := average*float64(i) + float64(len(texts[i]))
+			average = u / float64(i+1)
+			if len(shortString) > len(texts[i]) {
+				shortString = texts[i]
+			}
+			if len(longString) < len(texts[i]) {
+				longString = texts[i]
+			}
+		}
+		var averageLengthString []string
+		for i := 0; i < len(texts); i++ {
+			if average == float64(len(texts[i])) {
+				averageLengthString = append(averageLengthString, texts[i])
+			}
+		}
+		return shortString, longString, int(average), averageLengthString
+	}
+	return "", "", 0, nil
+}
+
 func parseString(test string) (bool, []uint64, []string) {
 	var integers []uint64
 	var texts []string

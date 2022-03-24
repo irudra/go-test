@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func Test_testValidity(t *testing.T) {
 	var tests = []struct {
@@ -150,6 +153,52 @@ func Test_averageNumber(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got, _ := averageNumber(tt.args); got != tt.want {
 				t.Errorf("averageNumber() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_storyStats(t *testing.T) {
+
+	tests := []struct {
+		name  string
+		args  string
+		want  string
+		want1 string
+		want2 int
+		want3 []string
+	}{
+		{
+			name:  "testShortNumber",
+			args:  "12-hello-12-world-12-number-23-3456",
+			want:  "3456",
+			want1: "number",
+			want2: 5,
+			want3: []string{"hello", "world"},
+		},
+		{
+			name:  "testNoAverageNumber",
+			args:  "12-hello-12-world-12-number-23-3",
+			want:  "3",
+			want1: "number",
+			want2: 4,
+			want3: []string{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, got1, got2, got3 := storyStats(tt.args)
+			if got != tt.want {
+				t.Errorf("storyStats() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("storyStats() got1 = %v, want %v", got1, tt.want1)
+			}
+			if got2 != tt.want2 {
+				t.Errorf("storyStats() got2 = %v, want %v", got2, tt.want2)
+			}
+			if !reflect.DeepEqual(got3, tt.want3) {
+				t.Errorf("storyStats() got3 = %v, want %v", got3, tt.want3)
 			}
 		})
 	}
